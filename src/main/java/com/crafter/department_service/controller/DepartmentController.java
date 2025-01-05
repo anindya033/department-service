@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.crafter.department_service.client.EmployeeClient;
 import com.crafter.department_service.model.Department;
 import com.crafter.department_service.repo.DepartmentRepository;
 
@@ -24,6 +25,9 @@ public class DepartmentController {
 	
 	@Autowired
 	private DepartmentRepository departmentRepo;
+	
+	@Autowired
+	private EmployeeClient empClient;
 	
 	@PostMapping(value="/add")
 	public Department add(@RequestBody Department department) {
@@ -41,6 +45,15 @@ public class DepartmentController {
 	public Department findById(@RequestParam Long id){
 		LOGGER.info("Department Find by id");
 		return departmentRepo.findById(id);
+	}
+	
+	@GetMapping(value="/getAllDepartmentsWithEmployees")
+	public List<Department> getAllDepartmentsWithEmployees(){
+		LOGGER.info("Department Find all departments With Employees");
+		List<Department> departments = departmentRepo.findAllDepartments();
+		departments.forEach(
+				department-> department.setEmployees(empClient.getEmployeeByDepartmentId(department.getId())));
+		return departments;
 	}
 
 }
