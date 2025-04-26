@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.crafter.department_service.client.EmployeeClient;
 import com.crafter.department_service.model.Department;
 import com.crafter.department_service.repo.DepartmentRepository;
+import com.crafter.department_service.services.DepartmentService;
 
 @RestController
 @RequestMapping("/department")
@@ -24,29 +25,34 @@ public class DepartmentController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(DepartmentController.class);
 	
 	@Autowired
-	private DepartmentRepository departmentRepo;
+	private DepartmentService departmentService;
 	
 	@Autowired
 	private EmployeeClient empClient;
 	
+	@GetMapping(value="")
+	public String testController() {
+		return "Department Controller";
+	}
+	
 	@PostMapping(value="/add")
 	public Department add(@RequestBody Department department) {
 		LOGGER.info("Department added : {}", department);
-		return departmentRepo.addDepartment(department);
+		return departmentService.addDepartment(department);
 	}
 	
 	@GetMapping(value="/getAllDepartments")
 	public List<Department> getAllDepartments(){
 		LOGGER.info("Department Find all");
-		return departmentRepo.findAllDepartments();
+		return null;//departmentRepo.findAllDepartments();
 	}
 	
 	@GetMapping(value="/getDepartmentById")
 	public Department findById(@RequestParam Long id){
 		LOGGER.info("Department Find by id");
-		return departmentRepo.findById(id);
+		return null;//departmentRepo.findById(id);
 	}
-	
+	/*
 	@GetMapping(value="/getAllDepartmentsWithEmployees")
 	public List<Department> getAllDepartmentsWithEmployees(){
 		LOGGER.info("Department Find all departments With Employees");
@@ -54,6 +60,6 @@ public class DepartmentController {
 		departments.forEach(
 				department-> department.setEmployees(empClient.getEmployeeByDepartmentId(department.getId())));
 		return departments;
-	}
+	}*/
 
 }

@@ -4,13 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.crafter.department_service.entity.DepartmentEntity;
 import com.crafter.department_service.model.Department;
 
 @Repository
-public class DepartmentRepository {
-	
+public interface DepartmentRepository extends JpaRepository<DepartmentEntity, Long> {
+
+//@Repository
+//public class DepartmentRepository {
+	/*
 	private List<Department> departments = new ArrayList<>();
 	
 	public Department addDepartment(Department department) {
@@ -27,6 +32,6 @@ public class DepartmentRepository {
 	
 	public List<Department> findAllDepartments(){
 		return departments;
-	}
+	}*/
 
 }
